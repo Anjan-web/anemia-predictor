@@ -1,7 +1,16 @@
 import streamlit as st
 import numpy as np
 import joblib
-model = joblib.load("model.pkl")
+import os
+import streamlit as st
+import os
+
+st.title("🩺 Hypertension Predictor - App Started ✅")
+
+st.write("📁 Current directory:", os.getcwd())
+st.write("📄 Files in this directory:", os.listdir())
+
+model = joblib.load(os.path.join(os.path.dirname(__file__), "model.pkl"))
 st.title("🩺 Hypertension Risk Predictor")
 age = st.number_input("Age", min_value=1, max_value=120)
 male = st.radio("Gender", ["Female", "Male"])
