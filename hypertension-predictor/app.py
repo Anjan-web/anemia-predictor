@@ -6,6 +6,13 @@ import streamlit as st
 import os
 st.title("🩺 Hypertension Risk Predictor (Improved)")
 st.markdown("Fill in the health details below to check your risk of hypertension.")
+try:
+    model_path = os.path.join(os.path.dirname(__file__), "model.pkl")
+    model = joblib.load(model_path)
+except Exception as e:
+    st.error("❌ Could not load the model. Make sure model.pkl is in the same folder as app.py.")
+    st.stop()
+hemoglobin = st.number_input("Hemoglobin Level (g/dL)", min_value=4.0, max_value=20.0, value=13.0)
 age=st.number_input('Age', min_value=18,max_value=80)
 sex=st.selectbox('Sex',['Femal','Male'])
 bmi = st.number_input("BMI", min_value=10.0, max_value=60.0)
