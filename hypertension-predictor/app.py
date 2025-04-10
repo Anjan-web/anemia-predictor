@@ -4,37 +4,32 @@ import joblib
 import os
 import streamlit as st
 import os
-
-st.title("🩺 Hypertension Predictor - App Started ✅")
-
-st.write("📁 Current directory:", os.getcwd())
-st.write("📄 Files in this directory:", os.listdir())
-
-model = joblib.load(os.path.join(os.path.dirname(__file__), "model.pkl"))
-st.title("🩺 Hypertension Risk Predictor")
-age = st.number_input("Age", min_value=1, max_value=120)
-male = st.radio("Gender", ["Female", "Male"])
-currentSmoker = st.radio("Do you currently smoke?", ["No", "Yes"])
-cigsPerDay = st.slider("Cigarettes per day", 0, 50, 0)
-BPMeds = st.radio("On BP medication?", ["No", "Yes"])
-diabetes = st.radio("Diabetic?", ["No", "Yes"])
-totChol = st.number_input("Total Cholesterol", min_value=100.0, max_value=600.0)
-sysBP = st.number_input("Systolic BP", min_value=80.0, max_value=250.0)
-diaBP = st.number_input("Diastolic BP", min_value=50.0, max_value=150.0)
-BMI = st.number_input("BMI", min_value=10.0, max_value=60.0)
-heartRate = st.number_input("Heart Rate", min_value=40.0, max_value=150.0)
-glucose = st.number_input("Glucose", min_value=40.0, max_value=400.0)
-male = 1 if male == "Male" else 0
-currentSmoker = 1 if currentSmoker == "Yes" else 0
-BPMeds = 1 if BPMeds == "Yes" else 0
-diabetes = 1 if diabetes == "Yes" else 0
+st.title("🩺 Hypertension Risk Predictor (Improved)")
+st.markdown("Fill in the health details below to check your risk of hypertension.")
+age=st.number_input('Age', min_value=18,max_value=80)
+sex=st.selectbox('Sex',['Femal','Male'])
+bmi = st.number_input("BMI", min_value=10.0, max_value=60.0)
+pregnancy = st.number_input("Pregnancy Count (0 if not applicable)", min_value=0, max_value=20)
+smoking = st.selectbox("Do you smoke?", ["No", "Yes"])
+physical_activity = st.selectbox("Physical Activity Level", ["Low", "Moderate", "High"])
+salt_content = st.slider("Salt content in your diet (1 = low, 5 = high)", 1, 5, 3)
+alcohol = st.number_input("Alcohol consumption (drinks per day)", min_value=0.0, max_value=10.0)
+stress = st.slider("Stress Level (1 = none, 5 = very high)", 1, 5, 3)
+genetic = st.slider("Genetic Pedigree Coefficient (0.0 - 2.0)", 0.0, 2.0, 0.5)
+ckd = st.selectbox("Do you have chronic kidney disease?", ["No", "Yes"])
+thyroid = st.selectbox("Do you have adrenal or thyroid disorders?", ["No", "Yes"])
+sex = 1 if sex == "Male" else 0
+smoking = 1 if smoking == "Yes" else 0
+physical_activity = {"Low": 0, "Moderate": 1, "High": 2}[physical_activity]
+ckd = 1 if ckd == "Yes" else 0
+thyroid = 1 if thyroid == "Yes" else 0
+input_data = np.array([[
+    age, sex, bmi, pregnancy, smoking, physical_activity,
+    salt_content, alcohol, stress, genetic, ckd, thyroid
+]])
 if st.button("Predict Hypertension Risk"):
-    input_data = np.array([[male, age, currentSmoker, cigsPerDay, BPMeds, diabetes,
-                            totChol, sysBP, diaBP, BMI, heartRate, glucose]])
-    
     prediction = model.predict(input_data)[0]
-    
     if prediction == 1:
-        st.error("⚠️ High Risk of Hypertension!")
+        st.error("⚠️ You are at **high risk** for hypertension. Please consult a doctor.")
     else:
-        st.success("✅ Low Risk of Hypertension")
+        st.success("✅ You appear to be at **low risk** for hypertension.")
