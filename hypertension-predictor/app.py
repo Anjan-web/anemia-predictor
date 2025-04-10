@@ -30,7 +30,7 @@ smoking = 1 if smoking == "Yes" else 0
 physical_activity = {"Low": 0, "Moderate": 1, "High": 2}[physical_activity]
 ckd = 1 if ckd == "Yes" else 0
 thyroid = 1 if thyroid == "Yes" else 0
-input_data = np.array([[
+input_data = np.array([[hemoglobin,
     age, sex, bmi, pregnancy, smoking, physical_activity,
     salt_content, alcohol, stress, genetic, ckd, thyroid
 ]])
