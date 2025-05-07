@@ -6,7 +6,7 @@ st.set_page_config(page_title="Anemia Predictor", layout="wide")
 st.title("🩸 Anemia Prevalence Predictor (15–49 years)")
 
 # Load model
-MODEL_PATH = "anemia_model.pkl"
+MODEL_PATH = "anemia_model.pklgit add app.py"
 try:
     model = joblib.load(MODEL_PATH)
 except FileNotFoundError:
