@@ -2,10 +2,10 @@ import streamlit as st
 import pandas as pd
 import joblib
 
-# Load trained model (excluding dropped feature)
+# Load the trained model
 model = joblib.load("anemia_model_no_15_19.pkl")
 
-# Updated feature list (14 features minus the dropped one)
+# ✅ Exact 13 features used during model training
 feature_labels = {
     '103_Women_age_15_years_and_above_who_consume_alcohol_%': "Women (15+) who consume alcohol (%)",
     '13_Children_age_5_years_who_attended_pre-primary_school_during_the_school_year_2019-20_%': "Children (5 yrs) in pre-primary school (%)",
@@ -23,9 +23,9 @@ feature_labels = {
 }
 
 st.title("Anemia Prevalence Prediction (Women 15–49 yrs)")
-st.markdown("Provide district-level inputs below to estimate anemia prevalence:")
+st.markdown("Provide district-level inputs to estimate anemia prevalence:")
 
-# Collect user inputs
+# Collect input
 user_input = {}
 for key, label in feature_labels.items():
     user_input[key] = st.slider(label, 0.0, 100.0, 50.0)
